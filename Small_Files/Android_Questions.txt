@@ -1,0 +1,349 @@
+why should we use listview over adding views in linear layout 
+ 
+
+java reflection 
+java tricky questions 
+
+how to handle HD Image , list of 1L image , 1L data in the databse 
+generate thumbnail Images 
+what is indexing in database context (basically this would help when there is huge #of records .. the key (column which set as index) stored in  kind of binary search tree .. hence search would be faster than normal (normal behaviour is, search in sequential) )
+
+
+
+
+
+
+GCM (Google cloud messaging)
+
+what happens when device goes to sleep mode 
+android permissions 
+android security  ( permission , share user iD , protection level)
+ANR 
+MAT tool 
+
+
+Sync Adapter 
+
+different ways to store your app values 
+
+what are the 3rd party lib you have used :
+   sqlcipher,gsonparser,printer etc 
+
+
+Scenario Questions:
+    1. Requirement is, app needs to have a million of records and searching should be faster (index would be helpful)
+    2. infinite records for Listview  (We can go for pagination,single thread to download resources required to build listview )
+    3. there is a memory leak in your application
+	4. How to work with HD image in the listview 
+   
+   
+Activity: 
+  1. What is an Activity 
+  2. Life cycle method of an Activity
+  3. Different launch mode of an Activity (standard ,Single top, single task and single instane)
+  4. what is Affinity ( it is a wish ,where your activity go and sit )   
+   
+Fragments understanding
+  1. what is fragment 
+  2. when to use fragments 
+  3. Lifecycle method of fragments ( when you show one fragment from another then what are the life cycle mtd getting called )
+  4. how the fragments communicate with each other 
+
+
+ Different Types of layout :  Linear layout  
+  
+  
+Service 
+  IT is an Android components which runs in background 
+  When you want to perform some long running task , then go for Service ( A component whcih is running to serve some purpose )
+    By default service runs on main thread 
+Types : Started service and Bound service 
+  Started service : can startservice many times , but stopservice or stopself will stop the service ir-respective of how many tiems we called the service 
+
+       
+  
+Intent  -> what user wants to do 
+ types : 1. Implicit (calling other component by action defined in manifest file)
+         2. Explicit (calling other component by name of the class)
+What is pending intent, sticky intent 
+
+What is BroadcastReceiver 
+        1. Ordered broadcast receiver
+        2. Unordered broadcast receiver
+
+What is ANR  (Application Not Responding)
+    It happens in two scenarios 
+	 1. UI thread should respond in 5 seconds after the click events happens . If this fails then ANR will occur
+	 2. OnReceive method of Broadcast receiver should complete in 10 sec , otherwise ANR will occur 
+	       Note : Broadcast receiver runs on UI thread 
+		   
+		   
+Strict Mode :
+   StrictMode is a developer tool which detects things you might be doing by accident and brings them to your attention so you can fix them.
+   StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll()); in Oncreate method (ie in UI thread)
+   StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()     ( this one applies to all thread in the process )
+                 .detectLeakedSqlLiteObjects()
+                 .detectLeakedClosableObjects()
+				 .build());
+				 
+
+storing (Persistance) mechanism in android 
+ 1.Sharedpref (to store less key-value pair)
+ 2.File  (to store blob)
+ 3.Database ( to store complex datastructure) 
+ 
+ 
+ IPC mechanisam and comparision  (Note : all the below three are using binder framework ... internally binder , ashmem, pipes,sockets are used for IPC)
+  1. Intent  -> to pass the data at the time of starting a component 
+  2. Messanger -> Messanger uses handler , hence there will be only one thread to process the request. so, request are in queue 
+  3. AIDL  ->  It uses thread pool, hence it can handle multiple request at a time . 
+       also stub class is created to do the marshalling and unmarshalling of object (Not user defined class)
+	   
+	?then how will you transfer user-defind object to another process 
+	--> user defind class must implement parcellable interface , which provides method to marshall/unmarshalling of object 
+		 
+ String vs StringBuilder vs stringBuffer
+    String is immutable  ( good for declaring string object and use it )
+    StringBuffer is synchronized
+    StringBuilder is non-synchronized  (good for string concatination operation)
+	
+	
+Why String is immutable 
+    they made it as immutable as there are some adv 
+    1. No need to sync for multi threading operation	
+    2. in case two ref pointing to the same string object , then one cant change the value ..   (talking about threadpool)
+   ? can you make your class as immutable 
+     --> declare your class as final ,declare your function as private except constructor 
+	
+
+	
+what is String pool & related question	 
+	String pool is the memory where string literals are stored 
+    Ex: String s1 = "new delhi";  String s2 = "new delhi";  --> there will be only one object in the string pool area "new delhi" and s1 and s2 points to the same object
+   ? then when the string object will store in heap
+     --> whenever you are using new operator to create object 
+    Ex: String s3 = new String("new delhi");  --> s3 object created in the heap	 
+	
+	 
+Does java supoorts multiple inheritance 
+    No , but it supports indirectly by implementing interface	
+
+WeakReference vs  SoftReference vs PhantomReference vs strongReference
+   WeakReference -> Whenever StrongRef dies , then object is eligible for GC
+   SoftReference -> Whenever StrongRef dies , then object is eligible for GC provided there will be an obsolute neccesary of memory for system 
+
+Does Java uses call by value or call by reference 
+  Java uses call by value .. 
+  ? then how it is working when we pass an object 
+  --> it is passing object reference as a value .. when you update the ref  then it will not get update in the caller function
+
+Cheked vs unchecked exception
+   All the runtime exceptions are unchecked exception 
+   Checked exceptions are , if there may be a chance of getting exception ex : filenotFoundException in the file operation then the compiler check this at the time of Compilation
+   then this kind of exceptions are Checked Exception 
+
+What is equal and hashcode method
+   we need to define it when you are using custom object in collections 
+   equals : custom class may have many fields, in equals method programmer has to decide on which field we need to check the equality
+   hashcode : provides hashcode value , which is used in hashmap
+   
+comparable Vs Comparator 
+   comparable : default mechanism of sorting of collection of data 
+   Comparator : Modifed sorting mechasim.. define new sorting and pass this object to collection and sort it based on the new rule 
+
+abstract Vs interface 
+class    , skeleton ( functions are public, abstract by default  and variables are public,static ,final by default)
+extends only one , implements many 
+CursorAdapter Vs Cursor   
+  
+Thread 
+what is thread : executing sequence of code
+when to use thread : when you want multiple execution then go for thread ( ex: performing network related operation , performing long running task to avoid ANR)
+what is the +ve and -ve : 
+(+ve) you can acheieve multithreading   
+(-ve) Context switching , New stack memory , cache is created also need to introduce Synchronized for the variables , for critical variable is to be volatile .. because of this 
+      there will be performance hit . hence dont introduce thread unless it is obsolutely necessary
+	
+	
+Synchronization :
+    Method sync , sync block 
+    Noraml sync and static synchronization (both variant applicable for both the sync above) 
+Ex :  static public void mtd1()  , synchronized(Myclass.class)  // static variant example
+
+Deadloack situation : 
+    Two threads waiting for each other to release the lock  (If you are using multiple locks then this sitation can arise)
+How to avoid this situation : lock ordering plays an important lock 	
+             
+ 	 
+memory management and  
+
+How to increase the performance of an existing application
+   -> Long running task should be moved to worker thread to make UI responsive 
+   -> Look out the object creation 
+   -> implement strictmode and find out any policy violation 
+   ->    
+
+String operation performace.. Ex: use At rather than using another method 
+
+commication between the fragments   
+
+Action bar and menu 
+Creating jar file 
+
+Navigation drawer 
+
+understanding of tool like dx,adb,traceview, hierarchy, hprofconv, zipalign etc
+
+Pagination in Listview android 
+lazy loading in android 
+how to improve UI performane in android 
+How to identify memory leak in android 
+LRUcache 
+
+Export missing AS 
+   
+
+what is deadlock ? how will avoid this ?
+synchronization
+what is thread , why it is reqd , pros & cons 
+different ways to create thread .. what is the different between them 
+
+UI :
+AsyncTask vs thread 
+It is possible to spawn Async task from worker thread 
+what is looper and handler 
+Is it possible to create looper in UI thread 
+can I have multiple handler in thread 
+What is future task 
+what is fragment 
+how fragment are communicatin each other 
+what is Action bar 
+Material Design 
+
+What are the basic building blocks 
+View hierarchy tools 
+
+Java OOPS ;
+ What is polymorphosm...  
+
+ 
+1.Write a pgm to find the path in binary search tree
+2.write a pgm to bind the service from an activity 
+3.write a pgm for factory pattern
+4.life cycle method sequence when Act1 starts ActB
+5.Activity starting Asynctask and did orientation , now activity destroyed and recreated . now what would be the status of Asynctask .. 
+6.In which class equals and hashcode method implemented ..    and when to override this 
+7.what is innerclass ? what is the benefit of innerclass 
+
+8.diff between public, private , protected and default 
+9.listview .. how to develop UI for multiple screen and multiligual  
+  
+
+C++ : 
+properties should have base class while inheritance -> Cons should be public , destructor should be virtual
+pgm for copy constructor 
+syntax for function pointer .. what is the usage of function pointer 
+
+thread : join , yield 
+concurrnecy vs synchronization 
+different types of loader in android 
+how many AsyncTask thread we can create @ a time  ( 128 , this is the number of threads in the thread pool )
+65K limit 
+how to create FTS table and it is significance 
+ 
+volatile keyword in android  and when to use volatile in android 
+atomic variable in java 
+
+pass data from the broadcast receiver  and on which thread broadcast receiver runs 
+inner class and Anonymous class 
+different types of loader in android 
+
+wait and notify  ? 
+    
+
+How many intent service can be created at a time ?
+how many bind service can be created ?
+pending intent 
+
+what is gc root ? and get hold of it .
+
+how will you come to know wheather your application having memory leak or not ?
+   In DDMS tool , there is a tab "Allocated" in Heap TAB , from that you can derive the leak ..
+   step1 : Launch app, play around and Exit .. while exiting the allocated memory  for the process more or less should be same .. else you can suspect that.
+   stpe2 : Launch app, play with it and exit . IF allocated memory keep on growing then app is leaking memory ..
+How to fix the memory leak..
+   1.Simulate the leak, dump dalvik heap memory 
+   2.Convert to java heap dump using hprof-conv tool
+   3.Open MAT, and load the java heap dump 
+   4.Go to Dominator tree , order by %memory occupied 
+   5.Select the suspects,right click, exclude weak reference 
+   6.Select "Path2GCroot"  ..  this is holding the ref of the memory leak 
+
+   you can filter by using regex , and object count also helpful info sometimes 
+      
+
+where cursor and bitmap objects are created and Is there any possiblity to find if it leaking memory
+
+
+monkey runner (UI test)
+
+
+failfast and failsafe  -> both are attribute related to Iterator ( implies java Collections) . Changing the collection (ie adding and removing elements in the collection) after creating the Iterator object. failfast will be thrown when we call next() or hasnext() .. Iterator object internally check the flag to find the change in collection
+   This situation could happen in single thread and multi thread as well.
+   
+Failfast can occur if you iterate over Hashmap,arraylist,vector .. 
+if you want to overcome this behaviour use concurrentHashmap, copyonwritearraylist 
+   
+   
+Https questions 
+ Diff types of http method : Http get, post, put ,delete 
+ diff between put and post : basic diff is , put is used to update resource and Post is used to create new resource  
+   property idempodent: there is no chanage in the app data doesn't matter how many times we are calling ( POST method is exception)    
+Does java supports operator overloading ? 
+  No , exception is string (String r = "hai"+" hello")
+
+  
+inner class Vs Nested class 
+
+Performane improvement in java 
+  1. use StringBuilder rather than String .. 
+  2. Use Buffered I/O classes.
+  3. Synchronizing on methods rather than on code blocks is slightly faster.
+  4. Use exceptions only where you really need them.
+  5. Dont use collections.synchronized to make your collection synchronized 
+  
+  
+android security :
+  permission
+  shareuserId 
+  android:protectionLevel in maninfest file 
+  
+Optimizing Your UI
+  Using Hierarchy Viewer
+  
+
+  
+Android tools ;
+  ADB, DDMS, Proguard, ZipAlign, MAT,dx,traceview, hierarchy, hprofconv 
+  
+Get Clarity on 
+  1. File.close , Cursor.Close , Bitmap.recycle() where this memory is allocated .. Is it in Dalvik heap or native heap or somewhere else 
+  
+How to publish the apk 
+
+
+DataStructure : 
+  Array, Linked List , hashmap , tree ,graph 
+Algorithm
+  traversal 
+  
+  
+Is there any Init or Constructor in servlet which initializes the DBconnection and thread etc 
+By default class is inherited from whcih class (ex  all java classes inherited from object class ) 
+Is all the time objects are created in the servlet 
+
+
+
+ 
+
+

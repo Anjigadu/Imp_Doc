@@ -1,0 +1,3 @@
+MySqlPort : 3306
+pwd: password uname : root
+windows service name : Mysql56

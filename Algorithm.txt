@@ -1,0 +1,11 @@
+Algorithms
+-----------------
+
+   1)  Dutch nation flag algorithm : 
+        segregate three variables
+   2) Using XOR ..  there are two identical array and one array has extra one element , find that 
+                    in an array, all the elements has occured twice 
+
+	
+	 
+	 

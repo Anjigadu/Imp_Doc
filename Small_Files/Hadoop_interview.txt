@@ -1,0 +1,150 @@
+Hadoop interview questions and answer
+---------------------------------------
+
+Preparing hadoop 
+------------------
+Know some API from Mapreduce, Hive, kafka , storm  and its significance 
+
+
+What is the difference between a failed task attempt and a killed task attempt?
+      A failed task attempt is a task attempt that completed, but with an unexpected status value. A killed task attempt is a duplicate copy of a task attempt that was started as part of speculative execution
+ what is speculative execution ? Ans: When you process a large data set in multiple MAPPER , one of the mapper running slow and giving o/p late then Job tracker start another mapper to process the same data. this process is called Speculative execution
+ what happens if name node crashes ? will the task in TT caontinue to run ?
+ what happens if I set reduce is 0 ? what is the state of the mapper o/p ?  if reducer set to 0 , mapper will start work and it writes the mapper o/p in HDFS
+ what is the architectural difference in MR v1 & YARN  ? 
+ What is MR v2 & YARN ? 
+ 
+
+ 
+// Questions asked in interview 
+1. Why can't we use Java primitive data types in Map Reduce?
+2. Explain how do you decide between Managed & External tables in hive
+3. Can we change the default location of Managed tables
+4. What are the factors that we consider while creating a hive table
+5. What are the compression techniques and how do you decide which one to use
+6. Co group in Pig
+7. How to include partitioned column in data - Hive
+9. What hadoop -put command do exactly
+10. What is the limit on Distributed cache size?
+11. Handling skewed data
+12. What are the Different joins in hive?
+13. Explain about SMB join in Hive
+
+
+
+// some good questions from WEB 
+1. What is SequenceFile in Hadoop and Explain its importance?
+    SequenceFile is a flat file consisting of binary key/value pairs. It is extensively used in MapReduce as input/output formats. It is also worth noting that, internally, the temporary outputs of maps are stored using SequenceFile.
+	The SequenceFile provides a Writer, Reader and Sorter classes for writing, reading and sorting respectively.
+ Q) In which format mapper o/p writes data in HDFS/local FS
+
+	
+2. Explain about the different parameters of the mapper and reducer functions.
+3. How many Daemon processes run on a Hadoop System?
+4. How can the NameNode be restarted? (what are the factors you have to keep it mind b4 restating)
+5. What is the significance of conf.setMapper class?
+6. What are combiners and when are these used in a MapReduce job? btw , can we have reducer as a combiner and can we define own combiner class
+7. How can you check whether the NameNode is working or not?
+8. Differentiate between HiveQL and SQL.
+
+
+Hadoop General Questions 
+----------------------------------
+ 1) What is the sequence file in Hadoop
+    -- file which stores key& value in binary format 
+	-- As it is binary format , we can compress that , results it comsumes less Diskspce, less I/O operation , less bandwith
+	-- It also resolves small file problem (whole data of the small file becomes the value of the sequece file ) <-- Practise more on this 
+
+
+
+Hadoop PIG Interview Questions and Answers
+-------------------------------------------
+5) Explain about co-group in Pig.
+
+COGROUP operator in Pig is used to work with multiple tuples. COGROUP operator is applied on statements that contain or involve two or more relations. The COGROUP operator can be applied on up to 127 relations at a time. When using the COGROUP operator on two tables at once-Pig first groups both the tables and after that joins the two tables on the grouped columns.
+
+6) Explain about the BloomMapFile.
+
+BloomMapFile is a class that extends the MapFile class. It is used n HBase table format to provide quick membership test for the keys using dynamic bloom filters.
+
+7) Differentiate between Hadoop MapReduce and Pig
+
+Pig provides higher level of abstraction whereas MapReduce provides low level of abstraction.
+MapReduce requires the developers to write more lines of code when compared to Apache Pig.
+Pig coding approach is comparatively slower than the fully tuned MapReduce coding approach.
+
+
+
+
+Hadoop Hive Interview Questions and Answers
+-------------------------------------------
+
+1) What is a Hive Metastore?
+
+Hive Metastore is a central repository that stores metadata in external database.
+
+2) Are multiline comments supported in Hive?
+
+No
+
+3) What is ObjectInspector functionality?
+
+ObjectInspector is used to analyze the structure of individual columns and the internal structure of the row objects. ObjectInspector in Hive provides access to complex objects which can be stored in multiple formats.
+
+
+4) How Hive is different from traditional RDBMS 
+    1. Hive uses distributed environment
+	2. Hive can store complex data types like MAP,ARRAY etc 
+	3. cannot use insert query in hive as it is processing bulk of data ( load data inpath ... used to add bulk of row in the HDFS and Hive uses it )
+	4. Update/Delete query is not possible in Hive
+	
+5) What are the different types of Table you can create 
+    1.  Managed table/Internal table  & External table  
+	
+6) Compare Internal & External Table   	
+	
+7) How to create partition for an external table 
+	
+	
+	
+	
+
+
+
+
+Interview Questions on Hadoop Hive
+-------------------------------------
+
+1)Explain about the different types of join in Hive.
+   --  Common Join (Reduce side join , join two big tables)
+   --  Map Join
+   --  Auto MapJoin
+   --  Bucket Map Join (Join table needs to be bucktized also bucket column and join column shoud be same)
+   --  Bucket Sort Merge Map Join (Join table needs to be bucktized and sorted also bucket column,sort column and join column shoud be same)
+   --  Skew Join
+   
+2)How can you configure remote metastore mode in Hive?
+
+3)Explain about the SMB Join in Hive.
+
+4)Is it possible to change the default location of Managed Tables in Hive, if so how?
+
+5)How data transfer happens from Hive to HDFS?
+
+6)How can you connect an application, if you run Hive as a server?
+
+7)What does the overwrite keyword denote in Hive load statement?
+
+8)What is SerDe in Hive? How can you write yourown customer SerDe?
+
+9)In case of embedded Hive, can the same metastore be used by multiple users?
+
+
+
+///////    Capgemini  interview questions
+1. where the meta store of hive resides (name node or datanode)
+2. When to use COmbiner and when not to use it 
+3. what are the important property you need to set in driver code 
+4. why we need to store meta data in meta store - hive 
+5. what is the internal architecture of sqoop
+6. 

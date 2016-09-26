@@ -1,0 +1,78 @@
+
+
+[root@sandbox ~] # cd kafka_2.10-0.8.2.2   // go to kafka folder 
+
+kafka> bin/kafka-server-start.sh config/server.properties  (start the kafka server and server.properties config file contains the info)
+
+kafka/bin> ./kafka-console-producer.sh --broker-list <ip:port (where you need post your msg, check config/producer.properties)> --topic <topic_name_where_you_are_sending_msg>
+kafka/bin> ./kafka-console-producer.sh --broker-list localhost:9092 --topic testkafka
+
+kafka/bin> ./kafka-topics.sh --create --zookeeper <ip:port(zookeeper ip and listen port)> --replication-factor 1 --partitions 1 --topic <topic_name>
+kafka/bin> ./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic testkafka
+
+kafka/bin> ./kafka-console-consumer.sh --zookeeper <ip:port (where zk listen)> --topic <topic_name> --from-beginning (read mode)
+kafka/bin> ./kafka-console-consumer.sh --zookeeper localhost:2181 --topic testkafka --from-beginning  // add  --from-beginning  if you want to consume from begining
+kafka/bin> ./kafka-console-consumer.sh --zookeeper localhost:2181 --topic testkafka   // listen only what is produced 
+
+
+to delete topic 
+./kafka-topics.sh --zookeeper localhost:2181  --delete --topic <topic_name>
+./kafka-topics.sh --zookeeper localhost:2181  --delete --topic testkafka
+
+ 
+https://storm.apache.org/documentation/Command-line-client.html 
+
+runing storm :
+  storm jar <path to jar > 
+Storm/bin> ./storm jar kafkatest.jar com.test.mainapp  
+
+Storm/bin>./storm jar jar/storm_test.jar storm.test.StormTest  
+
+// Storm word count test  
+[root@sandbox ~] # cd kafka_2.10-0.8.2.2/bin
+kafka/bin> ./kafka-console-producer.sh --broker-list localhost:9092 --topic wordcount
+kafka/bin>./kafka-topics.sh --create --zookeeper localhost:2181/kafka --replication-factor 1 --partitions 1 --topic wordcount
+kafka/bin> ./kafka-console-consumer.sh --zookeeper localhost:2181 --topic wordcount
+
+
+
+
+
+
+error :
+ Exception in thread "main" java.lang.RuntimeException: Found multiple defaults.yaml resources.
+ You're probably bundling the Storm jars with your topology jar. [jar:file:/root/apache-storm-0.9.3/lib/storm-core-0.9.3.jar!/defaults.yaml, 
+ jar:file:/root/apache-storm-0.9.3/lib/storm-core-0.9.1-incubating.jar!/defaults.yaml]
+ 
+ 
+Links 
+-------
+http://www.allprogrammingtutorials.com/tutorials/introduction-to-apache-storm.php   : introduction
+http://www.allprogrammingtutorials.com/tutorials/topologies-streams-spouts-and-bolts-in-storm.php  : general knowledge about the spout and bolt 
+http://kafka.apache.org/07/quickstart.html   : this link describe the how to send messsage to the kafka  
+http://kafka.apache.org/documentation.html   : to know abt the kafka general and property values 
+
+refer the D:\Study\Hadoop\Storm\Imp_Diagram 
+
+Know abt CAP theoram
+ 
+ 
+Kafka Question & strom Question
+---------------------------------
+
+Kafka is the msg queue 
+Strom is the real time processing system
+Strom : How to create topology ? how  to set number of task  and parallelism ? Can we change while topology running ?
+What is strom rebalance 
+know about brokers 
+what is the role of zookeeper in Storm
+what is topic in storm
+
+what makes the running topology : Worker process, executor and task 
+   Worker process : where topology runs ( single topology may run on one or more process NOT VICE VERSA )
+   Executor : 
+   
+   
+   
+
+

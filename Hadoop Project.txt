@@ -1,0 +1,9 @@
+Client : Tyco 
+
+trip track table : 
+  table has the info of trip info like trip Id, vehicle ID ,cab lat and long info
+  from that, need to know which cab doesnt send trip info in the given interval and how many heartbeat it missed
+device status table : 
+  in heart beat , app sending info device status like ,  where the cab is, BT status, Battery status 
+  from that, for what period BT on/off from the timestamp 
+    

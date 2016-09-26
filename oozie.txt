@@ -1,0 +1,65 @@
+There are two basic types of Oozie jobs:
+
+Oozie Workflow : jobs are Directed Acyclical Graphs (DAGs), specifying a sequence of actions to execute. The Workflow job has to wait
+Oozie Coordinator : jobs are recurrent Oozie Workflow jobs that are triggered by time and data availability.
+
+Oozie workflow consists of action nodes and control-flow nodes.
+
+An action node represents a workflow task, e.g., moving files into HDFS, running a MapReduce, Pig or Hive jobs, importing data using Sqoop or running a shell script of a program written in Java.
+A control-flow node controls the workflow execution between actions by allowing constructs like conditional logic wherein different branches may be followed depending on the result of earlier action node.
+
+Oozie Bundle provides a way to package multiple coordinator and workflow jobs and to manage the lifecycle of those jobs.
+
+
+running oozie job
+------------------
+
+$ oozie job -oozie http://localhost:11000/oozie -config sqoop-wf/job.properties -run
+
+// after submitting the job you will get job id ( 0000000-160228083656134-oozie-oozi-W )
+
+// below cmd is used to know the status of d job
+$ oozie job -oozie http://localhost:11000/oozie -info job: job: 0000001-160228184816372-oozie-oozi-W
+
+
+// remove the old folder from hdfs 
+   $ hadoop fs -rmr examples/apps/sqoop-wf
+// copy the folder 
+   $ hadoop fs -put /root/sqoop-wf examples/apps/sqoop-wf   
+
+   
+   
+add environmental variable if not available in 
+export HADOOP_HOME = /usr/local/hadoop
+export PATH = $PATH:/usr/lib/sqoop/lib   
+
+
+
+
+oozie work flow application
+----------------------------
+
+how to define the workflow 
+ definition file :  coordinator.xml
+ config file : coord-config-default.xml
+ 
+properties file
+  coordinator.properties.xml or job.properties
+  
+  
+WF definition file : workflow.xml
+config file : config-default.xml
+
+
+error : 
+Exception occured: [User: oozie is not allowed to impersonate root]
+solution : 
+ <property>
+    <name>hadoop.proxyuser.oozie.groups</name>
+    <value>users,oozie,root</value>
+ </property>
+
+
+
+
+

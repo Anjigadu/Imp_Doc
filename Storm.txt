@@ -1,0 +1,30 @@
+What is Storm ?
+ 
+When you use storm?
+
+Basic concepts about storm ?
+
+
+What is Spout, Bolt, Topology, Stream groupings,Tasks and Worker
+
+what the different types of Stream groupings ?
+
+
+What is parallelism hint 
+
+SetNumworks(), setNUmTask() ?
+
+Why cant we modify #task in the topology @runtime
+
+Why I have use allgrouing with caution ? 
+   all groupung -> all the tuples send to the all the bolts(All the task ),in case any one of the task failed to process the tuple then particular tuple ID got failed 
+
+
+how to handle the failed tuple 
+    in case your storm integrated with Kafka , then it will take care of that.. we no need to do anything 
+	
+
+what is tuple tree
+
+how to store the processed data in the HDFS 
+  

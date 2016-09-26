@@ -1,0 +1,137 @@
+How to start spark : 
+   sandbox# cd spark-2.0.0-bin-hadoop2.7
+   C:\spark-2.0.0-bin-hadoop2.7 # ./bin/spark-shell 
+
+
+local mode in windows 
+   spark-2.0.0-bin-hadoop2.7/bin > spark-shell --master local
+   
+   
+   spark-shell --conf spark.sql.warehouse.dir=file:///spark-2.0.0-bin-hadoop2.7\saprk-warehouse --master local
+   
+   
+     
+   
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  what is dataFrame :  is a data with schema 
+  what is broadcast variable : broadcast variables are:  a) Immutable b) Distributed to the cluster c)Fit in memory  NOTE : same as distributed cache in Hadoop
+  what is accumlator : is a variable used in Business logic to accumlate something, say it is RDD or something  NOTE : same as counters in Hadoop
+  what is RDD 
+  properites of RDD :
+         Immutable
+         Partitioned
+         Fault tolerant
+         Created by coarse grained operations
+         Lazily evaluated
+         Can be persisted
+  what are transform & action 
+  
+  internal architecture of spark   ie Spark Execution model ( driver (like name node) , spark Executor(like data node) , job, task,  )
+   what is stage 
+   	
+	How can you minimize data transfers when working with Spark?
+	  Using Broadcast Variable- Broadcast variable enhances the efficiency of joins between small and large RDDs.
+      Using Accumulators – Accumulators help update the values of variables in parallel while executing.
+      The most common way is to avoid operations ByKey, repartition or any other operations which trigger shuffles.
+
+	What is the advantage of a Parquet file?
+
+      Parquet file is a columnar format file that helps –
+       Limit I/O operations
+       Consumes less space
+       Fetches only required columns.
+
+    What is the difference between persist() and cache()
+       persist () allows the user to specify the storage level whereas cache () uses the default storage level.
+
+    What are the various levels of persistence in Apache Spark?
+     The various storage/persistence levels in Spark are -
+
+        MEMORY_ONLY
+        MEMORY_ONLY_SER
+        MEMORY_AND_DISK
+        MEMORY_AND_DISK_SER, DISK_ONLY
+        OFF_HEAP
+		
+		
+		
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+   
+    Pgm to count the word 
+	-------------------------
+	val textFile = sc.textFile("D:\\tt_crash.txt")
+    val counts = textFile.flatMap(line => line.split(" ")).map(word => (word, 1)).reduceByKey(_ + _).collect()
+	
+	
+	Pgm to count the word on top of the filter 
+	------------------------------------------
+	
+	val textFile = sc.textFile("D:\\tt_crash.txt")
+	val filterRDD = textFile.filter(_.contains("NullPointer")) 
+	filterRDD.collect()   // to display all the lines which has NullPointer 
+    filterRDD.count()     // user to count the lines 
+	
+	pgm to find multiple selected words 
+	-----------------------------------
+	val textFile = sc.textFile("D:\\tt_crash.txt")
+	val filterRDD = textFile.filter(line => {line.contains("NullPointer") || line.contains("Killing")})
+	filterRDD.collect()   // to display all the lines which has NullPointer 
+    filterRDD.count()     // user to count the lines 
+	
+	pgm to sql 
+	-----------------------------------
+	val textFile = sc.textFile("D:\\Spark_utils\\Test_data\\sample_data.txt")
+	
+	// Create the SQLContext first from the existing Spark Context
+    val sqlContext = new org.apache.spark.sql.SQLContext(sc)
+    
+    // Import statement to implicitly convert an RDD to a DataFrame
+    import sqlContext.implicits._
+    
+	
+    // Create a custom class to represent the Customer
+    case class Customer(customer_id: Int, name: String, city: String, state: String, zip_code: String)
+    
+    // Create a DataFrame of Customer objects from the dataset text file.
+    val inputRDD = sc.textFile("D:\\Spark_utils\\Test_data\\sample_data.txt").map(_.split(",")).map(p => Customer(p(0).trim.toInt, p(1), p(2), p(3), p(4))).toDF
+	val interimRDD = inputRDD.map(_.split(",")).map(p => Customer(p(0).trim.toInt, p(1), p(2), p(3), p(4)))
+	val dfCustomers = interimRDD.toDF()
+    
+    // Register DataFrame as a table.
+    dfCustomers.registerTempTable("customers")
+    
+    // Display the content of DataFrame
+    dfCustomers.show()
+    
+    // Print the DF schema
+    dfCustomers.printSchema()
+    
+    // Select customer name column
+    dfCustomers.select("name").show()
+    
+    // Select customer name and city columns
+    dfCustomers.select("name", "city").show()
+    
+    // Select a customer by id
+    dfCustomers.filter(dfCustomers("customer_id").equalTo(500)).show()
+    
+    // Count the customers by zip code
+    dfCustomers.groupBy("zip_code").count().show()
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	 
+	
+   
+	 

@@ -1,0 +1,19 @@
+login to cluster 
+------------------------
+
+cluter uname : admin
+pwd : Teleca@123
+
+ssh uname : admin_mycluster
+ssh pwd : Teleca@123 
+https://myhadoopcluster.azurehdinsight.net
+
+
+using putty : 
+ $ ssh admin_mycluster@myhadoopcluster.azurehdinsight.net
+  pwd :  Teleca@123
+  
+azurehdinsight.net$   
+  
+  need to use storage service to store the data 
+ 

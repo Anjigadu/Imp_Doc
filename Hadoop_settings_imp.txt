@@ -1,0 +1,14 @@
+HortonWorks psudeo distributed mode 
+  --  /usr/lib/<Eco-system-components>
+  Ex
+     --  /usr/lib/Hadoop
+	 --  /usr/lib/Hive 
+	 
+	 Under the above folder you can find the property xml
+
+
+Config file you can find under the /etc/ folder in the parent dir 
+	 
+	 
+	 
+	 hadoop fs -put /usr/lib/oozie/share

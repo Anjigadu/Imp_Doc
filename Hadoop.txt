@@ -1,0 +1,128 @@
+Question :
+   In the hadoop env, object(which is stored/recd from the HDFS) has to obey the interface writeable ?  Is the rule applicable for mapper output since mapper output stored in local memory of the data node.
+
+   
+What is HDFS ?
+What is sqoop
+what is Map& reduce 
+
+
+rackspace.com // to have cluster of commodity hardware 
+
+localhost:50070
+
+
+
+sqoop list-databases --connect jdbc:mysql://10.0.2.15:3306 --username root --password root
+
+
+where to see the output 
+click on TAB utilities -> Browse the file system
+in the list click on usr-> cloudera -> <outputfile_dir> -> part-00000 
+
+
+delete dir in hadoop filesystem 
+$hadoop fs -rm -r <dir_name>
+
+Imp question:
+how many reducer we can use : 999999 . why this figure : this is how hadoop has designed 
+default mapper class in hadoop : IdentityMapper
+default Reducer class in hadoop : IdentityReducer
+default Partitioner class in hadoop : HashPartitioner
+
+
+hadoop jar jar/hadoop_test1.jar hdtesting.driver data/winequality_red.csv data/output
+
+
+When to use what 
+Map Reduce : any kid of data (structured, semi structured , un structured)
+Pig : structured, semi structured
+Hive : structured
+
+
+psohal1@hotmail.com ; parminder.sohal@hp.com  :: Trainer 
+
+
+Task to try:
+1. how to send jar file to all the node in the cluster 
+2. how to setup master and slave ( Name node and data node )
+3. when to use hadoop over NoSql or MangoDB 
+4. how to import existing db to hdfs and how to work with structured data
+5. 
+
+
+
+Hadoop setup 
+export JAVA_HOME = /usr/lib/jvm/java  <path to jdk>
+export HADOOP_HOME = /usr/local/hadoop <path to hadoop dir>
+export PATH = $PATH:$HADOOP/bin
+export PATH = $PATH:$HADOOP/sbin
+export HADOOP_MAPRED_HOME = $HADOOP_HOME
+export HADOOP_COMMON_HOME = $HADOOP_HOME
+export HADOOP_HDFS_HOME = $HADOOP_HOME
+export HADOOP_COMMON_LIB_NATIVE_DIR = $HADOOP_HOME/lib/native
+export HADOOP_OPTS = "-Djava.library.path=$HADOOP_HOME/lib"
+
+
+// Cluster setup points 
+ 1. OS linux created using VM or virtual box, we need to set the constant IP address for all the machine 
+     to set constant IP :  open etc\sysconfig\network-scripts\ifcfg-eth0    -> change the flag to yes for onboot(Property)
+ 
+	 
+1. What is pipeline write 	 
+2. what is speculative execution
+
+////////////////////////////////  Mysql   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Mysql : hosted in AWS , if you want to connect to network , then do the following ....  'root'@'%'  // user: root network : %
+
+CREATE USER 'uname'@'localhost' IDENTIFIED BY 'mypass';   // template... to set your database for network 
+CREATE USER 'root'@'%' IDENTIFIED BY 'root';    // user name : root , pwd : root
+
+and you have to grant it 
+GRANT ALL ON *.* TO 'root'@'%';
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Redirecting error log and standard log in Linux 
+Command > logs.txt 2>&1
+
+
+
+
+//////////////////////   Download data from the LMS  
+
+LMS Login, Accessing E-learning content & Ebook Download Procedure: 
+1. Login to our LMS using this URL: https://www.lms.simplilearn.com
+2. Use the Login credentials received from Simplilearn
+3. User id will be your registered email id using which you have enrolled for our course.
+4. If you do not remember the password, kindly click on "Forgot Password" to receive the password reset link to your registered email address.
+5. After successful login, click on "My Courses" tab on the LMS home page
+6. Click on the respective course link to be directed to the page where the course videos are played.
+7. You will be able to locate "Download Center" at the bottom of the same page.
+8. E-book and other associated downloadables with the course are listed in download center.
+9. Please download the e-book for accessing while training session and for your offline reference.
+
+
+please read out the question while answering the question. otherwise we will loose the context 
+who can become an data scientist 
+
+
+printout : ppt 06 :  19,20, 21
+	 
+////// Hadoop Commands    /////////////////////////////////////////////////////////////////////////////////
+
+ hadoop jar /home/jar/distributed_cache.jar com.hdtest.mydriver 
+ /user/root/data/data/Data_FOR_Join/PRODUCTS_FTS.csv  <Input 1>
+ /user/root/data/data/Data_FOR_Join/PROCUREMENT_DETAIL_TABLE.csv  <Input 2>
+ data/output22	<output 2>																			 
+
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+ 
+ we have a database in which we are storing racords daily 
+ 
+ at the end of the day, all the records are to the hive table ( partioned by month)  can we have multiple partition ? If yes , what is the trade off 
+ Hive Interfaces 
+ inserting row to the hive table , does flume help on this ?  goal: need to insert single/group of row 
+ 

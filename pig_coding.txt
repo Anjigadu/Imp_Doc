@@ -1,0 +1,115 @@
+word count : 
+-------------
+
+
+lines = load '4300.txt' as (line:chararray);
+words = foreach lines generate flatten(TOKENIZE(line)) as word;
+wordgroup = group words by word;
+wordgroupcount = foreach wordgroup generate group,COUNT(words) as wordcountpergroup;
+displaywordgroup = order wordgroupcount by wordcountpergroup ;
+dump displaywordgroup;
+
+
+// counting words in the file 
+lines = load 'test_pig.txt' as (line:chararray);
+words = foreach lines generate flatten(TOKENIZE(line)) as word;
+wordcountgroup = group words all;
+count = foreach wordcountgroup COUNT(words);
+dump count;
+
+
+// co group 
+lines = load 'test_pig.txt' as (line:chararray);
+words = foreach lines generate flatten(TOKENIZE(line)) as word;
+wordcountgroup = cogroup words by word;
+
+// group 
+
+group_test = group words by word; dump group_test;
+
+
+
+
+// tested on two tables 
+Co Group test
+--------------
+owners = LOAD 'pig_test_data/owner.txt' USING PigStorage(',') AS (owner:chararray,animal:chararray);
+pets = LOAD 'pig_test_data/pet.txt' USING PigStorage(',') AS (name:chararray,animal:chararray);
+groupd = cogroup owners by animal,pets by animal;
+dump groupd;
+
+o/p
+
+(cat,{(adam,cat),(alice,cat)},{(paws,cat),(wiskers,cat)})
+(dog,{(adam,dog),(steve,dog)},{(fido,dog),(rex,dog)})
+(dino,{(arun,dino)},{})
+(fish,{(alex,fish)},{(nemo,fish)})
+
+
+
+ unioin test
+ -------------
+ owners = LOAD 'pig_test_data/owner.txt' USING PigStorage(',') AS (owner:chararray,animal:chararray);
+pets = LOAD 'pig_test_data/pet.txt' USING PigStorage(',') AS (name:chararray,animal:chararray);
+uniond = union owners,pets;
+dump uniond;
+ 
+ (adam,cat)
+(adam,dog)
+(alex,fish)
+(alice,cat)
+(steve,dog)
+(arun,dino)
+(nemo,fish)
+(fido,dog)
+(rex,dog)
+(paws,cat)
+(wiskers,cat)
+
+ 
+joind = join owners by animal , pets by animal;
+dump joind; 
+o/p 
+(adam,cat,paws,cat)
+(adam,cat,wiskers,cat)
+(alice,cat,paws,cat)
+(alice,cat,wiskers,cat)
+(adam,dog,fido,dog)
+(adam,dog,rex,dog)
+(steve,dog,fido,dog)
+(steve,dog,rex,dog)
+(alex,fish,nemo,fish)
+
+ 
+ group test
+ ----------
+ 
+ groupd = group owners by animal,pets by animal;
+ dump groupd;
+
+o/p
+(cat,{(adam,cat),(alice,cat)},{(paws,cat),(wiskers,cat)})
+(dog,{(adam,dog),(steve,dog)},{(fido,dog),(rex,dog)})
+(dino,{(arun,dino)},{})
+(fish,{(alex,fish)},{(nemo,fish)})
+
+
+/////////////////////////////////////////////
+bill_detail = LOAD 'RetailerData/RETAILER_BILL_DETAIL.csv' USING PigStorage(',') as (header_uuid,store_uuid,bill_date,bill_discount,bill_num,bill_total,created_by,created_time,ref_col1,ref_col2,updated_by,updated_time,bill_status);
+
+
+/// Bill header analytics ///////////////////////////////////////////////////////////////////////////////////////////////////
+bill_header = LOAD 'RetailerData/RETAILER_BILL_HEADER.csv' USING PigStorage(',') as (header_uuid,store_uuid,bill_date,bill_discount,bill_num,bill_total:double,created_by,created_time,ref_col1,ref_col2,updated_by,updated_time,bill_status);
+bill_group_store = group bill_header by store_uuid;
+bill_sum = foreach bill_group_store generate group,SUM(bill_header.bill_total) as tot_amt,COUNT(bill_header) as cnt;
+# sort by total amount 
+bill_sum_sort_tot = order bill_sum by tot_amt;
+
+# sort by num of bills
+bill_sum_sort_ant = order bill_sum by cnt desc;
+
+dump bill_sum_sort_tot;
+dump bill_sum_sort_ant;
+
+/////// End of it  /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+

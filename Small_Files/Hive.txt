@@ -1,0 +1,218 @@
+
+
+Compare SQL & HiveQL
+
+Starting hive shell 
+--------------------
+
+root@sandbox~ # hive
+Hive > show databases;
+Hive > use <db_name>;
+Hive > show tables;
+Hive > <you can fire any hql>
+
+
+// ganges related table creation 
+
+
+create table test (uuid String  , id String , name String ) row format delimited fields terminated by ',' row terminated by '\n' ;
+
+// Creating tables 
+CREATE TABLE IF NOT EXISTS RETAILER_BILL_DETAIL ( BILL_DETAIL_UUID String , STORE_UUID String , BILL_HEADER_UUID String , CREATED_BY String, CREATED_TIME TIMESTAMP , PRODUCT_UUID String , REF_COLUMN_1 String , REF_COLUMN_2 String , UNIT_PRICE DOUBLE , UNIT_SOLD DOUBLE , UPDATED_BY String , UPDATED_TIME TIMESTAMP ) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile;
+CREATE TABLE IF NOT EXISTS RETAILER_BILL_HEADER ( BILL_HEADER_UUID String , STORE_UUID String , BILL_DATE TIMESTAMP , BILL_DISCOUNT DOUBLE , BILL_NUM String , BILL_TOTAL DOUBLE , CREATED_BY String, CREATED_TIME TIMESTAMP , REF_COLUMN_1 String, REF_COLUMN_2 String, UPDATE_BY String, UPDATED_TIME TIMESTAMP , BILL_STATUS int ) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile;
+CREATE TABLE IF NOT EXISTS RETAILER_PRODUCT_MASTER (PRODUCT_UUID String ,STORE_UUID String , CREATED_BY String, CREATED_TIME TIMESTAMP , ITEM_DESCRIPTION String, MANF_PRODUCT_UUID String, MANF_UUID String, PACKAGED int, PRODUCT_CODE String , REF_COLUMN_1 String,	REF_COLUMN_2 String, SHARED_PRODUCT_UUID String, TO_BE_VERIFIED int, UNIT_MRP DOUBLE, UNIT_OF_MEASUREMENT String, UNIT_SP DOUBLE, UNIT_WEIGHT DOUBLE, UPDATED_BY String, UPDATED_TIME TIMESTAMP , VAT_PERCENTAGE DOUBLE, UNIT_CP DOUBLE, ACTIVE_STATUS int)  row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile ; 
+
+
+// load local test data
+
+LOAD DATA [LOCAL] INPATH 'filepath' [OVERWRITE] INTO TABLE tablename [PARTITION (partcol1=val1, partcol2=val2 ...)]
+load data local inpath 'RetailerData/RETAILER_BILL_DETAIL.csv' into table retailer_bill_detail
+load data local inpath 'RetailerData/RETAILER_BILL_HEADER.csv' into table retailer_bill_header
+load data local inpath 'RetailerData/RETAILER_PRODUCT_MASTER.csv' into table RETAILER_PRODUCT_MASTER
+
+
+	 
+drop table RETAILER_BILL_DETAIL;
+drop table RETAILER_BILL_HEADER;
+drop table RETAILER_PRODUCT_MASTER;
+
+
+// Creating external table 
+CREATE EXTERNAL TABLE external_parquet (c1 INT, c2 STRING, c3 TIMESTAMP)
+  STORED AS PARQUET LOCATION '/user/etl/destination';
+  
+  create EXTERNAL table testExt (owner String  , pet String) row format delimited fields terminated by ',' lines terminated by '\n' location "/pig_test_data";
+  create table testMgd (owner String  , pet String) row format delimited fields terminated by ',' lines terminated by '\n' location "/pig_test_data";
+  
+  //////  Checking for number of MR jobs ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  create EXTERNAL table stu_name (id int , name String) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile;
+  create EXTERNAL table stu_details (id int , age int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile;
+   load data inpath 'Join_data/stu_details.txt' into table stu_details;
+   load data inpath 'JoinData/stu_name.txt' into table stu_name;
+   
+   select stu_name.name,stu_details.age from stu_name join stu_details on (stu_name.id == stu_details.id );  // No of map reduce jobs : 1 
+   
+   
+    
+	
+   
+  //////////////////////////Checking partition  ////////////////////////////////////////////////////////////////////////////
+  create EXTERNAL table stu_name_par (id int , name String) partitioned by (age int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile;
+  load data local inpath '/root/TEST_DATA/Hive/Join_data/stu_name.txt' into table stu_name_par partition (age = 25);
+  load data local inpath '/root/TEST_DATA/Hive/Join_data/age_grp_26.txt' into table stu_name_par partition (age = 26);
+  load data local inpath '/root/TEST_DATA/Hive/Join_data/age_grp_rand.txt' into table stu_name_par;  
+   
+  
+  ------- Dynamic partition  ------------------------------------------------------------------
+   set the following property to enable dynamic partition 
+    
+set hive.exec.dynamic.partition=true;
+set hive.exec.dynamic.partition.mode=nonstrict;
+set hive.exec.max.dynamic.partitions=1000;
+set hive.exec.max.dynamic.partitions.pernode=1000;
+
+// create table with no partition
+create EXTERNAL table stu_name_no_par (id int , name String,age int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile;
+load data local inpath '/root/TEST_DATA/Hive/Join_data/age_grp_rand.txt' into table stu_name_no_par; 
+
+
+create EXTERNAL table stu_name_dynamic_par (id int , name String) partitioned by (age int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile;
+
+// load data from another table to dynamic partitions table 
+
+hive>INSERT INTO TABLE stu_name_dynamic_par PARTITION (age) SELECT  id,name,age FROM stu_name_no_par;
+hive>INSERT overwrite TABLE stu_name_dynamic_par PARTITION (age = 26 ) SELECT  id,name FROM stu_name_no_par where age = 26;
+
+
+
+/////////////////////////////////        Partition End     ////////////////////////////////////////////////////////////////////////////////////////////////////
+ alter table testExt add partition (pet);
+  
+LOAD DATA INPATH '/pig_test_data/owner' [OVERWRITE] INTO TABLE tablename
+  [PARTITION (partcol1=val1, partcol2=val2 ...)]
+  
+  
+////////////////////////////////// loading json data (semi - structured ) to the hive table 
+ 1. add serde jar in hive 
+    -> hive > add jar <path/to/jar>   ( add jar /root/jar/hive-json-serde-0.2.jar  )
+ create table testjson (owner String  , pet String) row format delimited fields terminated by ',' lines terminated by '\n' ;
+ 
+ 2. create a table with serde or alter the exisitng table with serde 
+     a) you have selected a table 
+	 b) alter table test set SERDE 'org.apache.hadoop.hive.contrib.serde2.JsonSerde';
+  3. load data local inpath 'TEST_DATA/jsonserde.json' into table test	 
+
+
+  
+///// /////////////////////////  custom udf  in hive 
+
+
+1. create a class like belw 
+    public final class CustomUDF extends UDF {
+         public Text evaluate(final Text s) {
+             if (s == null) { return null; }
+                return new Text(s.toString().toLowerCase());
+            }
+2. export as jar 
+3. move this jar to cluster and add it to hive 
+4. create function which you are going to use   (  create temporary function tolowercase  as 'com.hivetest.CustomUDF'; )
+  create function tolowercase23 as `com.hivetest.CustomUDF` using jar `/root/jar/custom_udf.jar`;
+
+			
+
+  
+  
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+PROJECT :  Scheduler in Hadoop 
+
+
+Project :
+   
+
+   Project description 
+    This app helps retailer,distributor and FMCG.Retailer end we are using android powered device to get the billing, placing order and local reports. the same data has been sending to the server for many analytics.
+    
+   Responsibilities
+     1. Analytics and generating reports are done using Hive and Hadoop Ecosystem
+     2. Developing software for andoird powered device 
+     3. Mentoring team in Hive,Hadoop and Andorid  	 
+     4. Designing,Code review and bug fixing 
+	 
+// some use case 
+   1. total billing amount till yesterday ? so far ?  (Ex select sum(BILL_TOTAL) from RETAILER_BILL_HEADER;)
+   2. billing amount in month/year wise 
+   3. what is the total credit/cash bill in a selected month 
+   4. Which product sold most / CPG wise 
+   5. sum of product sold in the selected time frame 
+   6. selling product hierarchy CPG wise 
+   7. Comparision of product sold in a seleted data range (useful for promotion or to provide any offer)
+   8. Which retailer sold the particuar product 
+   9. Statewise selling product and drill down up to area level
+   10. Inegartion of data input from the data scientist to take the decision wheater to ramp up or ramp down the product 
+   11. Provides reports to the CPG daily based on their requirements 
+      
+   // total unit sold items 
+   select sum(rbd.unit_sold) as total_units,rpm.ITEM_DESCRIPTION as product from RETAILER_BILL_DETAIL rbd join RETAILER_PRODUCT_MASTER rpm on rbd.PRODUCT_UUID = rpm.PRODUCT_UUID  group by rpm.ITEM_DESCRIPTION order by total_units desc limit 25;
+   
+   //  
+    
+   
+   
+//  Tyco Aegis 
+    1. Trip Track table : How fast cab is moving live update 
+    2. Request audit table , response audit table : How may request has failed 
+    3. Checkin-Checkout table :  Report for , How many employees are using Card reader,PIN and Employee app to do check-in & check out 
+	    How many employees are not checking in their defined location (using lat and long value, can define some orbit)  
+    4. Device status table: How fast battery is draining (from previous record , will come to conclusion before the battery is completely dead), Memory consumtion (what kind),How long it is offline, in what location it is offline ,
+    5. Employee geolocation , based on the keyword from the geolocation , we can arrange the cab/TT/bus based on the head count (this defines only starting point)
+	    a) also , we are defining the vehicle route, If anyone on the then we can incluse them . this ensures right number of cab 
+	6. Employee schedule cancel : In case one employee cancelling the trip, then the same is informing to the Driver also we try to find some other employee can board at the CAB
+    7. Which cab reaching Cab (Real Time) , based on the location of the cab and the destination	
+	8. How to find the cab is approaching the employee or not ( take 3 samples of the location data , calculate the between emp location and the all the three , in case latest location info is nearer than other then cab is reaching employee )
+		
+     	
+
+	 
+// Hive Quires 
+
+1. Can we do multiple partioned in Hive table , If yes, then How it will work internally 
+2. Column as  (ex: UUID String NOT NULL) . at present no way yuo can restrict fields as  Not NULL
+3. How to set string length in Hive table column
+4. How to set Primiary Key 
+5. How to work with SerDe
+6. what is static and dynamic partition in Hive 
+7. Partition Vs Buketing  in Hive 
+8. Name some of the built in function in hive 
+9. where the bucket is used : use case 
+      
+
+
+// Hadoop Questions
+ What is the difference between a failed task attempt and a killed task attempt?
+ what is speculative execution ? Ans: When you process a large data set in multiple MAPPER , one of the mapper running slow and giving o/p late then Job tracker start another mapper to process the same data. this process is called Speculative execution
+ what happens if name node crashes ? will the task in TT caontinue to run ?
+ what happens if I set reduce is 0 ? what is the state of the mapper o/p ?
+
+1. Why can't we use Java primitive data types in Map Reduce?
+2. Explain how do you decide between Managed & External tables in hive
+3. Can we change the default location of Managed tables
+4. What are the factors that we consider while creating a hive table
+5. What are the compression techniques and how do you decide which one to use
+6. Co group in Pig
+7. How to include partitioned column in data - Hive
+9. What hadoop -put command do exactly
+10. What is the limit on Distributed cache size?
+11. Handling skewed data
+12. What are the Different joins in hive?
+13. Explain about SMB join in Hive
+
+
+Some useful links
+---------------------
+
+https://cwiki.apache.org/confluence/display/Hive/HiveClient	 
+	 
+	 
+

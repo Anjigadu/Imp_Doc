@@ -1,0 +1,16 @@
+Meena bagavathi : bvgpb2824p         
+Nandhini : AJAPN2967Q   
+Gobi : ANOPG5671L
+
+
+n -> 1140 gnd floor -> 013 
+w (N) ->   1180 
+1085 w (1100) ->   
+
+
+https://console.aws.amazon.com/s3/home?region=ap-southeast-1#&bucket=aegisbackups&prefix=database/20-10-2015/
+
+skype id:
+      
+	  
+	  https://s3-ap-southeast-1.amazonaws.com/aegisbackups/database/20-10-2015/aegisprod.sql.gz

@@ -1,0 +1,7 @@
+What is class ? what is object ?
+constructor concepts in java 
+oops concepts in java 
+what is abstraction and encapsulation ?
+what is an interface 
+multi threading concepts .. sync and static synchronization 
+s

@@ -1,0 +1,147 @@
+username: ec2-user   // AWS AMI , RHEL  
+user name : root  // Linux machine , RHEL  
+user name : ubuntu  // Ubuntu machine 
+
+
+$sudo yum update 
+
+$ sudo yum install tomcat6 tomcat6-webapps   // to install tomcat in AWS 
+
+$ sudo service tomcat7 start  // to start the instance 
+
+$ sudo service tomcat6 stop   // to stop the instance 
+
+
+$ cp /home/ec2-user/testWebServer.war /var/lib/tomcat6/webapps  // to deploy war file  
+
+
+$ sudo yum install mysql-server
+$ sudo service mysqld start
+$ sudo service mysqld stop  
+$ mysql -u root   // to get in to the sql shell
+
+
+$ show databases; // to show list of database 
+$ SHOW TABLES; // to show list of tables in the db 
+$ describe <table_name>  // to show the table fields with datatype 
+
+
+mysql>create database testdb;
+CREATE TABLE app_user (id int, name VARCHAR(20), joining_date DATE );
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+temp IP : 54.255.213.68 
+
+username : ubuntu // for ubuntu OS 
+$ sudo -s   // switch to root user 
+root , root is the user name ,pwd for the mysql 
+
+$ sudo service mysql start // to start the service 
+$ service --status-all   // to check the running service (legend should be '+' or '?')
+
+// get in to sql shell 
+$ mysql -u root -p  // this will ask pwd : root 
+sql> 
+ 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// install Hadoop (hortonworks on AWS)
+
+choose redhat (got to community and create image)
+note : ambari username : root 
+       ambari database name : ambari
+       ambari database username : root  	   
+	   ambari database pwd : bigdata
+	   
+web interface Ambari username/pwd : admin/admin 	   
+        	   
+
+$ wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.4.3.38/ambari.repo
+$ cp ambari.repo /etc/yum.repos.d
+$ yum repolist
+$ yum install gcc
+$ yum install ambari-server
+$ ambari-server setup
+$ ambari-server start
+$ yum install ntp ntpdate ntp-doc
+$ sudo chkconfig ntpd on
+$ sudo chkconfig iptables off 
+$ sudo service ntpd start
+
+
+# to start ambari from scratch
+
+$ ambari-server stop
+$ ambari-setvet reset 
+$ ambari-server start
+
+
+
+
+$ sudo yum install epel-release    # install extra package 
+$ sudo yum --enablerepo=epel install libev
+$ sudo yum --enablerepo=epel install libev-devel
+$   # install pythonbrew , install python 2.6.6 and you can switch to 2.6.6
+
+
+
+
+$ pythonbrew list
+$ pythonbrew list -k
+$ pythonbrew uninstall 2.7.10
+
+
+/usr/local/pythonbrew/etc/bashrc
+
+
+
+$ yum-config-manager --add-repo repository_url  (ex: yum-config-manager --add-repo ppa:fkrull/deadsnakes)
+$ sudo chmod -R g+w /usr/lib
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+ 
+
+CREATE DATABASE shopping;
+CREATE TABLE Product (id int,product_uuid varchar(40),brand varchar(255),category varchar(255),subcategory varchar(255),price int(11),offer float,image_link varchar(255));
+CREATE TABLE Customer (id int,customer_uuid varchar(40));
+CREATE TABLE CustomerLocation(id int,customer_uuid varchar(40),name varchar(40),flat_building varchar(255),street varchar(255),area varchar(100),city varchar(100),state varchar(100),pincode varchar(10),landmark varchar(255));
+CREATE TABLE CustomerInfo(id int,customer_uuid varchar(40),dob datetime,phone varchar(20),email varchar(75));
+CREATE TABLE BillInfo(id int,customer_uuid varchar(40),bill_num int,bill_type int,bill_header_uuid varchar(40),bill_sum float(2),bill_date datetime);
+CREATE TABLE BillDetail(id int,bill_header_uuid varchar(40),bill_detail_uuid varchar(40),product_uuid varchar(40),unit_sold int,unit_mrp float(2));
+
+
+update Product set product_uuid = uuid();
+
+// deploying war file in the server 
+
+CREATE DATABASE productmaster;
+use productmaster;
+
+CREATE TABLE Product (id int,product_uuid varchar(40),brand varchar(255),category varchar(255),subcategory varchar(255),price int(11),offer float,image_link varchar(255));
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (1,"Aashirdwadh","Food","Rajma Masala",234,25.2,"http://s14.postimg.org/71m7ecbdd/aashir_rajma_masala.jpg");
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (2,"Badhshah","Food","PaniPuri Masala",433,15.0,"http://s12.postimg.org/k3q9hah95/badshah_panipuri_masala.jpg");
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (3,"Sakthi","Food","Biryani Masala",200,15.0,"http://s17.postimg.org/7ehwv76mz/sakthi_biryani_masala.jpg");
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (4,"Sakthi","Food","Chicken Masala",164,8.0,"http://s4.postimg.org/vi7lp9m8p/sakthi_chicken_masala.jpg");
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (5,"Sakthi","Food","Chilly powder",76,8.0,"http://s2.postimg.org/4hjx9ucgl/sakthi_chillipowder.jpg");
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (6,"Sakthi","Food","Fish Curry masala",34,8.0,"http://s17.postimg.org/d08xczwpn/sakthi_fishcurry_masala.jpg");
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (7,"Sakthi","Food","Garam masala",65,10.0,"http://s21.postimg.org/zfdszi6ab/sakthi_garammasala.jpg");
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (8,"Sakthi","Food","tea masala",45,10.0,"http://s28.postimg.org/wxl1vdcux/sakthi_tea_masala.jpg");
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (9,"Tata","Food","Salt",23,0.0,"http://s11.postimg.org/ottxnppnz/tata_salt.jpg");
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (10,"Close Up","FMCG","Tooth Brush",45,5.0,"http://s28.postimg.org/ing2xmlw9/closeup_toothbrush.jpg");
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (11,"Colgate","FMCG","Tooth Brush",40,5.0,"http://s10.postimg.org/kpkshkoyd/colgate_toothbrush.jpg");
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (12,"Pepsodent","FMCG","Tooth Brush",65,7.0,"http://s4.postimg.org/85nsvcr89/pepsodent_toothbrush.jpg");
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (13,"Unknown","Toys","Girl",165,7.0,"http://s29.postimg.org/ricnfnlhf/teddybear_1.jpg");
+INSERT INTO Product (id,brand,category,subcategory,price,offer,image_link) VALUES (14,"Unknown","Toys","Girl",342,15.0,"http://s13.postimg.org/7c5zia103/teddybear_2.jpg");
+
+Do you want me display image for product 
+
+///
+
+
+https://github.com/gobis/TechieTip.git
+

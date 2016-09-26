@@ -1,0 +1,4 @@
+ adding environmental variable 
+ export PATH=$PATH:/usr/lib/oozie/bin
+ 
+ 

@@ -1,0 +1,27 @@
+///  working with sequence file    //////////////////////////////////////////////////
+
+copied samll_files to HDFS parent dir 
+
+$  hadoop fs -put /root/TEST_DATA/Small_Files .
+
+created jar 
+
+$ hadoop jar /root/sequence_write.jar hdtesting.SequenceFileWritter Small_Files /out/samllfiles.seq
+$ hadoop jar /root/sequence_write.jar hdtesting.SequenceFileWritter /root/TEST_DATA/Small_Files /out/samllfiles.seq
+                                      
+  Error :
+     classpathException in thread "main" java.lang.NoClassDefFoundError: org/apache/hadoop/io/SequenceFile$Writer$Option
+  Solution: 
+     Hadoop version mismatch in client and cluster 
+	 
+	 to check the hadoop version, type $ hadoop version 
+	 
+	 
+	 
+$ hadoop jar /root/sequence_write.jar hdtesting.SequenceFileRead /out/samllfiles.seq
+
+
+to Check directly 
+$ hadoop fs -text /out/samllfiles.seq | head 
+	 
+  

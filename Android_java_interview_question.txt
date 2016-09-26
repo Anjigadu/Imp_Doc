@@ -1,0 +1,85 @@
+JAVA:
+=============================
+oops concepts
+string and string builders
+abstract & interface
+final, finally & finalize
+static and final
+diff between this and super
+handlers and how it works
+threads
+why multiple inheritance not supported in java
+thread sleep and thread wait
+collections in java
+hashtable and hashmap
+iterator and for loop
+design patterns
+multithread over singleton
+looper
+executor service
+thread pool
+array and hasmap difference
+prgm to write power of 2 
+prgm to write no of duplicate values
+how android gets added to oops concept  
+muttable and immutable
+synchronized block and method in singleton and y constructor is private
+what is multi thread and single thread environment
+code using immutable
+sort the data without collections or comparable
+bean class should not get altered or i shud not set the data
+hashtable and hasmap difference
+when singleton is not singleton
+what is AIDL
+difference betweeen thread join and yeild and sleep
+what is IPC and how it is achieved
+static and instance variable
+intanceof keyword in java
+throw and throws difference
+Custom Exception class
+
+
+
+ANDROID:
+=============================
+lifecycle of activity n fragments
+wat states are called if i move frm once activity to other and also in fragments
+wat happens if 2 activity are launcher
+diff btw permission & uses permission
+diff btw async task and thread
+diff btw async task and services
+wat hpns to activty n thread if i change the orientation
+material design
+types of intents
+types of service and broadcast recievers
+how to fetch data and populate in listview after each 10 items(pagination)
+diff btw recyclerview and listview
+view holders
+layout inflators and wat is the usee of getview
+GCM
+google maps and offline maps
+wat differs with eclipse and android studio
+how to monitor performance in android studio
+how to get key and how to use it in android
+how to publish app
+what happens if i use the same key in 2 different machine for maps
+serialization and parcelable
+equals and hashcode
+version code and version name
+diff b/w service n async task
+why byte[] in serialization
+tools used for code review
+why we need to user permission in code for android 6 n above 
+How much size will be allocated by android per application
+bind service and startservice
+context and applicaiton context
+
+
+The Following Android Classes uses Design Patterns
+--------------------------------------------------
+1) View Holder uses Singleton Design Pattern
+2) Intent uses Factory Design Pattern
+3) Adapter uses Adapter Design Pattern
+4) Broadcast Receiver uses Observer Design Pattern
+5) View uses Composite Design Pattern
+6) Media FrameWork uses Façade Design Pattern

@@ -1,0 +1,3 @@
+sahutdown port : 8005
+http connector port : 8080
+AJP connector port : 8009

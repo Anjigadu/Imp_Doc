@@ -1,0 +1,157 @@
+Falls in NoSql scope 
+
+What is the real time use case of using casandra 
+
+Cansandra : OLTP , there are some other tools for OLAP(Analytics ) but we could use it 
+
+what is vertical and horizondal scalability ? 
+ Vertical scaling : adding more RAM,CPU, Hard disk etc to a particular machine 
+ horizondal scaling : adding more number of machine in the cluster 
+ horizondal scaling : adding more number of machine in the cluster 
+ 
+What is Elastic scalability 
+  adding or remving node from a cluster ( think of rubber , when you stretch it is stretching , when you leave it, it back to the pos)
+
+Casandra : is not a master and slave paradigm , 
+           here are the nodes are identical, all are performing same task 
+How casandra managing the cluster ?
+    In casandra cluster , all nodes are identical, so it has the Peer to Peer communication, with the help of it , it is managing the cluster 
+
+
+What is Column Family 
+
+How index works in database 
+
+Casandra can work well with Structured and semi-Structured Data , It can store un Structured (File ,Image , Video) but it is not recommnded 
+	
+	
+HBase vs Cassandra    based on use case (ie where to use what )
+  Both are NoSql style and Column family 
+  
+  
+  
+Important Keyword :
+------------------------
+
+KeySpace :  Analogy to the database in the RDBMS
+Column Falimy: Analogy to the table in the RDBMS
+
+System Keyspace:  Cassandra has an internal keyspace called System keyspace to store meta data(Cluster Name, Node's token (Key Range) , Keyspace and schema definition for dynamic loading,migration data and wheather or not node is bootstapred) info. this cant be edited by the programmer 
+
+Migration data : Config changes of the cluster is stored in migration data ex: Changing replication factor from 1 to 2 stored in migration data 
+Bootstarp : when you add a new node (called dump node) to the cluster, this has to be bootstarped ie all the cluster config has to configured and data should be copied from peer node. 
+Peer node : we can declare some node as peer node in the configuration file 
+
+Hinted handoff :   
+Tombstones :  this means soft delete  , check why it is used . it is hard to delete the record , it has to  delete the complete record which is available in different SS table.
+So , records are just marked and during compaction it is deleted .  	
+Read repair : 
+Memtable :
+SSTable :
+CommitLog: 
+ 
+
+  
+  
+  
+Cassndra important point to note :
+------------------------------------
+
+
+Java interpretation
+----------------------
+1. each table (Column family) is a distributed Hashmap
+2. Each row is a sorted Hashmap
+
+in sort , table in the form of  Hashmap<rowkey,SortedHashMap<ColumnKey,ColumnValue>>
+  
+  
+Where to use :
+  No secondary index ( what is py & sy index)
+  wide column range 
+
+  
+Can I use casandra if I have a req to group data? yes you can , but performance is too low , hence not recommended  
+  
+
+How read and write happens in Cassandra ? very Imp the detail code flow 
+
+There are no update in Cassandra , there are only append data in the table 
+
+Why timestamp associated in all the columns ? Ans : to make write operation fast , cassandra just writes the data rather than updating the record . based the latest timestamp it gets the data and returns the value to the user 
+
+
+
+// cassandra setup and how to run 
+  -------------------------------------
+  
+  Software requirements : JDK 1.7 and python 2.7 
+  
+  add jdk  in the path variable  if needed ( $ java -version  ..  this cmd returns something then java exists )
+  export JAVA_HOME=/usr/local/jdk1.7.0_80   (Note : there should not be any space around '=' , if it is , it will throw an error)
+  export PATH=$PATH:$JAVA_HOME/bin
+  
+  
+  $ easy_install pip
+  $ pip install cqlsh
+  
+  // to run cassandra and start cqlsh
+  $ bin/cassandra -f    // -f for keep the process in foreground
+  $ bin/cqlsh       // in another putty window 
+  $ bin/nodetool status       // to check the status
+  
+  cqlsh > CREATE KEYSPACE demo WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
+  cqlsh > use demo;
+  cqlsh:demo > CREATE TABLE owner (id int,name text,pet text,PRIMARY KEY (id));   // cant create table without primary key 
+  cqlsh:demo >INSERT INTO demo.owner (id, name,pet)  VALUES (1, 'johndoe','fish') USING TTL 86400;
+
+  
+  from clinet :
+  -----------------
+ 1. you need to change the .yaml in config folder  
+   rpc_address : 0.0.0.0
+   broadcast_address : 1.2.3.4   
+   
+   
+   
+ Practical problems :
+   bin $ ./cassandra -f   // process started and killed 
+   bin $ ./cassandra      // process started    
+  
+  
+  Error : 
+   Connection error: ('Unable to connect to any servers', {'52.89.186.116': error(111, "Tried connecting to [('52.89.186.116', 9160)]. Last error: Connection refused")})
+   
+   
+   
+   
+   
+// A simple jsp page which is ueed to add the column 
+<html>
+<body>
+<h1>Enter the values to add column in Cassandra </h1>
+<form action ="/<ProjectName>/<pagename.html>" method = "post">
+<p>
+   Column Name : <input type ="text" name = "Col Name">
+</p>
+<p>
+   Column Value : <input type ="text" name = "Col value">
+</p>
+<input type ="Submit" name = "Click here to Submit">
+</body>
+</html>   
+
+
+3220
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

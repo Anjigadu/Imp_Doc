@@ -1,0 +1,30 @@
+$ hbase shell
+hbase(main) > <CLI interface>
+
+
+
+
+
+
+
+Terms to understand
+-----------------------
+
+1. What is region server and region
+2. how many region a region server has ?
+3. what is Region server hotspotting 
+4. what is HLog (Write-Ahead-Log)
+5. What is memstore 
+6. What is HFile 
+7. Respponsibilities of HMaster 
+
+
+8. how data is shared in cluster and when you introduce new nodes, now how data is sifted in those new nodes 
+9. How to perform join operation in hbase 
+
+
+
+// coding 
+  to create table 
+    create 'table1','col_family_1'   // table should be created with min of 1 column family 
+	

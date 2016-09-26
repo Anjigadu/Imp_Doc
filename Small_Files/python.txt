@@ -1,0 +1,10 @@
+Python upgrade & downgrade
+-------------------------------
+
+download the version you want to install
+
+
+export JAVA_HOME=/usr/local/jdk1.7.0_80
+export PATH=$PATH:$JAVA_HOME/bin
+
+

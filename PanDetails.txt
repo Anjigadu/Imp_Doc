@@ -1,0 +1,10 @@
+Meena bagavathi : bvgpb2824p         
+Nandhini : AJAPN2967Q   
+Gobi : ANOPG5671L
+Janarthanan : ALKPJ1013D
+
+https://console.aws.amazon.com/s3/home?region=ap-southeast-1#&bucket=aegisbackups&prefix=database/20-10-2015/
+	  
+https://s3-ap-southeast-1.amazonaws.com/aegisbackups/database/20-10-2015/aegisprod.sql.gz
+	  
+

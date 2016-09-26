@@ -1,0 +1,74 @@
+Discussing various property of web.xml 
+------------------------------------------
+
+    <servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	
+	what is servlet 
+	   A servlet is a Java programming language class that is used to extend the capabilities of servers that host applications accessed by means of a request-response programming model. Although servlets can respond to any type of request, they are commonly used to extend the applications hosted by web servers. For such applications, Java Servlet technology defines HTTP-specific servlet classes.
+
+        The javax.servlet and javax.servlet.http packages provide interfaces and classes for writing servlets. All servlets must implement the Servlet interface, which defines life-cycle methods. When implementing a generic service, you can use or extend the GenericServlet class provided with the Java Servlet API. The HttpServlet class provides methods, such as doGet and doPost, for handling HTTP-specific services.
+		
+		another definition
+				
+		a) Servlet is a class that extend the capabilities of the servers and respond to the incoming request. It can respond to any type of requests.
+        b) Servlet is a web component that is deployed on the server to create dynamic web page.
+		
+	property : load-on-startup
+  -------------------------------------	
+	As you know well, servlet is loaded at first request. That means it consumes more time at first request. If you specify the load-on-startup in web.xml, servlet will be loaded at project deployment time or server start. So, it will take less time for responding to first request.	
+	
+	If you pass the positive value, the lower integer value servlet will be loaded before the higher integer value servlet. In other words, container loads the servlets in ascending integer value. The 0 value will be loaded first then 1, 2, 3 and so on.
+         
+         <servlet>  
+          <servlet-name>servlet1</servlet-name>  
+          <servlet-class>com.javatpoint.FirstServlet</servlet-class>  
+          <load-on-startup>0</load-on-startup>  
+         </servlet>  
+         
+         <servlet>  
+          <servlet-name>servlet2</servlet-name>  
+          <servlet-class>com.javatpoint.SecondServlet</servlet-class>  
+          <load-on-startup>1</load-on-startup>  
+         </servlet>  
+		 
+		 
+		 
+	property : servlet-mapping
+   -------------------------------
+        based on the used pattern whcih servlet needs to call 
+		
+		 <servlet-mapping>
+            <servlet-name>servlet1</servlet-name>
+            <url-pattern>/drink/*</url-pattern>
+         </servlet-mapping> 
+		 
+    
+	restEasy servlet  servlet-mapping and context-param
+	---------------------------------------------------------
+	
+	  The resteasy.servlet.mapping.prefix <context param> variable must be set if your servlet-mapping for the Resteasy servlet has a url-pattern other than /*. For example, if the url-pattern is
+      
+                <servlet-mapping>
+                <servlet-name>Resteasy</servlet-name>
+                <url-pattern>/restful-services/*</url-pattern>
+                </servlet-mapping>
+
+            Then the value of resteasy-servlet.mapping.prefix must be:
+
+                <context-param>
+                <param-name>resteasy.servlet.mapping.prefix</param-name>
+                <param-value>/restful-services</param-value>
+                </context-param>
+	
+	
+		 

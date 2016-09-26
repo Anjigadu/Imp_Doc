@@ -1,0 +1,26 @@
+pnorm , qnorm function for getting data only if distribution is normal
+
+
+R Studio 
+---------------
+?qqplot 
+?pnorm 
+?<API>  will take you to help 
+
+Books :
+Statistics for managemnt by Ken black
+Statistics for managemnt by Levin and Rubin
+
+I have data 
+  1. 1 (10 times) , 3 (30 times), 5(40 times) , 6 (10 times) ,7 (40 times),8(30 times) 
+  
+  
+  
+  1.what if my distribution having 2 modes  
+  2. df comes in to the picture when we dont know abt the parent population sd , while explaining chi-square test we are using df since we have parent population
+  
+  
+  1.in chi-square test , you are comparing two entity .. logically it is different . but data may force you to conclude two entities are dependent 
+  2.quickly compare t-test ,chi-square test 
+  
+  

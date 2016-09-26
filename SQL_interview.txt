@@ -1,0 +1,51 @@
+how to use group by 
+concepts of sub-query 
+
+
+
+Group by :
+   When you want to group the records based on some key 
+   Ex: Select sum(salary) from table group by <Col_id> 
+
+Difference between where and having 
+                  where                                        having 
+    1) It can come in update query as well        it will come only with select query
+    2) can be used without group by               it can be used only with Group by 
+    3) It will filter the result                  it will fetch all records and doing group by and filter the records from group 
+       and group if  needed	
+    4) Aggregation function cannot be used         Aggragation function can be used 
+    e where SUM(salary) > 4000 ; // CANNOT USE     ie Group by City Having salary sum(salary) > 5400;
+	  
+	  	  
+CRUD operation :
+  Create , Read , update , delete 
+
+ACID property 
+  Atomicity :
+  Consistency :  how does consistency acheived 
+  Isolation:  Concurreny control management ensured this property , when two threads are performing updates on database 
+  Durability : 
+    
+Sub Query : 
+    Non-Correlated sub Query : inner query not depends on the outer query ie inner query runs independentaly 
+	Correlated sub Query : inner query depends on the outer query 
+
+	
+Triggers : 
+   A trigger is a special kind of stored procedure that automatically executes when an event occurs in the database server
+    Trigger can be fired on insert , update and delete commands
+   
+Difference between TRUNCATE, DELETE and DROP commands
+   TRUNCATE  : TRUNCATE TABLE emp;  // all the rows in the tables are deleted , NOTE: trigger will not be fired 
+   DELETE    : Delete a particular row in the table 
+   DROP      : Drop the table itself  ie table itself removed from the database 
+
+Index : Indexes are special lookup tables that the database search engine can use to speed up data retrieval
+     // you can correlate with our book index , assume last few pages is the lookup table , using this your retrievel will be faster 
+	 CREATE INDEX index_name ON table_name (column_name);
+	 
+	 
+   
+ 
+    
+	

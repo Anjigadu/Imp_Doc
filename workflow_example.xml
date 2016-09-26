@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow-app xmlns='uri:oozie:workflow:0.4' name='sqoop-workflow'>
+    <start to='sqoop-load' />
+    
+    <action name="sqoop-load">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+            <arg>export</arg>
+            <arg>--options-file</arg>
+            <arg>${optionFile}</arg>
+            <file>${optionFile}</file>
+        </sqoop>
+        <ok to="startHive"/>
+        <error to="sqoop-load-fail"/>
+    </action>
+	
+	<action name="startHive">
+        <hive xmlns="uri:oozie:hive-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <prepare>
+               <delete path="[PATH]"/>
+               ...
+               <mkdir path="[PATH]"/>
+               ...
+            </prepare>
+            <job-xml>[HIVE SETTINGS FILE]</job-xml>
+            <configuration>
+                <property>
+                    <name>[PROPERTY-NAME]</name>
+                    <value>[PROPERTY-VALUE]</value>
+                </property>
+                ...
+            </configuration>
+            <script>[HIVE-SCRIPT]</script>
+            <param>[PARAM-VALUE]</param>
+                ...
+            <param>[PARAM-VALUE]</param>
+            <file>[FILE-PATH]</file>
+            ...
+            <archive>[FILE-PATH]</archive>
+            ...
+        </hive>
+        <ok to="end"/>
+        <error to="end"/>
+    </action>
+		
+    <kill name="sqoop-load-fail">
+        <message>Sqoop export failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+  
+    <end name='end' />
+</workflow-app>

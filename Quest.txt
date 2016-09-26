@@ -1,0 +1,312 @@
+JAVA:
+=============================
+oops concepts
+string and string builders
+abstract & interface
+final, finally & finalize
+static and final
+diff between this and super
+handlers and how it works
+    Handler allows you to send and process Message and Runnable objects associated with a thread's MessageQueue.
+	As soon as you call PostDelayed then the runnable/message added to the message queue nothing but looper 
+   
+threads
+  
+why multiple inheritance not supported in java
+  to avoid problems , particularly diamond problem which is there in other oops language 
+  
+thread sleep and thread wait
+
+collections in java
+hashtable and hashmap
+iterator and for loop
+design patterns
+multithread over singleton
+looper
+executor service n  thread pool
+-------------------------------------
+   both are used to provide multiple thread from the thread pool , by default , thread pool doesnt provide the synchronization whereas executor service provides the synchronization
+  
+  available in package : java/util/concurrent/Executors.java
+	public static ExecutorService newFixedThreadPool(int nThreads) {
+        return new ThreadPoolExecutor(nThreads, nThreads,
+                                      0L, TimeUnit.MILLISECONDS,
+                                      new LinkedBlockingQueue<Runnable>());
+    }
+	
+	new LinkedBlockingQueue<Runnable>());  // this line in above code provides the threadsafety 
+	
+	
+
+array and hasmap difference
+prgm to write power of 2 
+prgm to write no of duplicate values
+how android gets added to oops concept  
+muttable and immutable
+synchronized block and method in singleton and y constructor is private
+what is multi thread and single thread environment
+code using immutable
+sort the data without collections or comparable
+bean class should not get altered or i shud not set the data
+hashtable and hasmap difference
+when singleton is not singleton
+   When a singleton class is garbage-collected and then reloaded, a new singleton instance is created. Any class can be garbage-collected when no other object holds reference to the class or its instances.
+   
+what is AIDL
+difference betweeen thread join and yeild and sleep
+what is IPC and how it is achieved
+static and instance variable
+intanceof keyword in java
+
+
+
+throw and throws difference
+    throw : exception occured , throw-ing it 
+    throws : potentially this function can throw the exception
+
+Custom Exception class
+
+What is java reflection & when to use 
+
+what are the different ways of acheiving IPC (in bound service)
+   ==> using AIDL & messanger 
+     when to  use AIDL  : AIDL is necessary only if you allow clients from different applications to access your service for IPC and want to handle multithreading in your service
+	 when to messanger : you want to perform IPC, but do not need to handle multithreading
+	 
+	 simply, by using AIDL in service , it can provide service to many app  whereas messager is service dedicated to only one app 
+  
+what is java serialization and android parcallable 
+   Serialization available in Java , Decompose the Object as Byte[]  , as the data is in byte[] format any one can reconstruct if they know the protocol
+   Parcallable available in Andorid , decompose the data as Primitives , only another android app (whcih is in different process) can understand and reconstruct
+  
+What is obfuscation :  Security kind, all the class names are shorted , so that other cant interpret it .. btw it reduces the apk size as well 
+  
+
+Singleton desingPattern 
+   This desing pattern make sure that you are working with only one instance of the class 
+   why should I create : Singletons often control access to resources such as database connections or sockets  (cant have multiple db connection and sockets as well)   
+
+  
+
+1) What is the major advantage of autoboxing?
+   Autoboxing is the automatic conversion that the Java compiler makes between the primitive types and their corresponding object wrapper classes. For example, converting an int to an Integer, a double to a Double, and so on. If the conversion goes the other way, this is called unboxing.
+   
+   For Ex : Arraylist.add(5);  // here primitive type converted to object using autoBoxing 
+   
+   Adv : lesser code , looks clear 
+   DisAdv : Can lead to unexpected behaviour :  esp in comparission "equal / == " .. equal meant for object whereas == meant for primitive type 
+             NPE : You can get a NullPointerException, if the wrapper object is null and is unboxed. Pointing out the obvious there can’t be a NullPointer  with primitive variables, but they can have the value zero.   
+			 
+2) How to define custom annotation?
+    what is annotation : anotation describes meta data about the data
+	how it is better than comments :  comments are removed as part of compiler whereas annotation will be available till the runtime 
+   Refer eclipse program , btw '@interface' used to create custom annotation 	
+  
+3) Out of multiple threads if thread throws Runtime exception what happens to other threads?
+     remining thread will do the same work 
+	 
+4)Implement LRU cache without LinkedHashhMap
+
+5) Explain garbage collection process in JAVA
+
+6) Explain JAVA memory model.
+
+7)Difference between IsInstance and Instanceof.
+
+   Instanceof : when you know the type in compile time   (  obj instanceof MyCustomActivity)
+   IsInstance  : type at runtime  ( Class.forName(arg[0]).Isinstance(obj) ) 
+   
+8)Can you override methods of Arraylist?If so how?
+    
+9)Difference between Hash Map and Tree Map
+
+10) Explain Concurrent hash map . (and few more which I am not able to recall)
+     Concurrent hashmap provides locking at bucket level, at present when you create hashmap 16 buckets are created.So,16 threads can access this map at a time.
+	 whereas normal hashmap provides locking @ object level,Thus complete Hashmap gets locked.
+	 
+    SynchronizedHashMap
+       1.Synchronization at Object level.
+       2. Every read/write operation needs to acquire lock.
+       3. Locking the entire collection is a performance overhead.
+          This essentially gives access to only one thread to the entire map & blocks all the other threads.
+    ConcurrentHashMap
+       1. You should use ConcurrentHashMap when you need very high concurrency in your project.
+       2. It is thread safe without synchronizing the whole map.
+       3. Reads can happen very fast while write is done with a lock.
+       4. There is no locking at the object level.
+    The locking is at a much finer granularity at a hashmap bucket level.
+	
+	
+11.Wait and Sleep
+      Wait defined in Object class  .  Wait method shold be called in synchronized method otherwaise exception will be thrown.
+      Sleep defined in Thread	class . Halt the execution
+	
+Reason Why Wait , Notify and NotifyAll are in Object Class.
+  a) Wait and notify is not just normal methods or synchronization utility, more than that they are communication mechanism between two threads in Java
+  b) Locks are made available on per Object basis, which is another reason wait and notify is declared in Object class 
+
+ Thread life cyle :   start, run and exit if run (this is the end of thread life cycle )
+  
+Thread Join and yeild method 
+    join :  assume you have two threads
+         t1.start();  t2.start();   // when you execute this both the threads run parallely 
+         // NOTE : my requirement is start t2 , after the completion of t1 
+         t1.start() ; 
+         t1.join();  // current thread proress will wait here till completion of the t1 
+         t2.start();
+
+    Yeild method : this is a static method 		 
+
+Checked Exception and Unchecked Exception 
+    Checked Exception : Compile time exception : for example calling Thread.Sleep(5000); this call needs to be surrounded by try catch coz it potentially throws exception 
+    UnChecked Exception : Runtime Exception : Exception are generated @ runtime , accesing array elements which is out of bound, or NPE 
+
+12. Sorting algorithm :  and Time and space complexity for all the algorithm 
+13. What are the immutable class in java :  String, Integer, Double 
+14. Change class as immutable 
+15. static synchronization  and where is the lock for the static synchronization 
+
+
+16.are the static varibales are thread-safe ?
+  yes definitely static variables are not thread safe.. you have to synchronize the block.... still totally correct.But my point of view , why static variable are not thread safe is the smart question. 
+
+  Static variables are resides inside the method area.Method area is shared among all the threads in the particular JVM because of that you have to synchronize the code block to coordinate threads. 
+  
+What is class ? what is object ?
+constructor concepts in java ? this & super 
+oops concepts in java  
+what is abstraction and encapsulation ?
+what is an interface 
+ 
+
+ why comparable and equals must be consistent 
+ It is strongly recommended (though not required) that natural orderings be consistent with equals. This is so because sorted sets (and sorted maps) without explicit comparators behave "strangely" when they are used with elements (or keys) whose natural ordering is inconsistent with equals. In particular, such a sorted set (or sorted map) violates the general contract 
+ 
+ Create immutable class 
+    To create a object immutable You need to make the class final and all its member final so that once objects gets crated no one can modify its state. You can achieve same functionality by making member as non final but private and not modifying them except in constructor. Also its NOT necessary to have all the properties final since you can achieve same functionality by making member as non final but private and not modifying them except in constructor.
+	
+StringBuffer class implementation is synchronized while StringBuilder class is not synchronized.
+
+java is pass by value only , objects reference as passed by values  (ie reference value gets modified then caller function ref will not get modified )
+          public void foo(Dog d) {
+           d = new Dog("Fifi"); // creating the "Fifi" dog
+       }
+            
+       
+       Dog aDog = new Dog("Max"); // creating the "Max" dog
+       // at this point, aDog points to the "Max" dog
+       foo(aDog);
+       // aDog still points to the "Max" dog
+	   
+	   
+  When finally block will not get executed 
+    1) if the thread executing the try or catch code is interrupted or killed, the finally block may not execute even though the application as a whole continues.
+    2) If a exception is thrown in finally block and not handled then remaining code in finally block may not be executed.
+	
+  What is Marker interface? How is it used in Java?	  ( implements Serializable is example of marker interface )
+     an interface which has no member function .  used to find the concrete class type 
+	  interface marketinterface{} }
+     class A implements marketinterface{}
+	 class B implements marketinterface{}
+	 
+	 
+	 Now create object for two class and cast it to parent 
+	  
+	  marketinterface obj1 = new A();  marketinterface obj2 = new B(); 
+	  if( obj1 instanceof A  && obj2 instanceof B){}
+	  
+	  
+  How to find out deadloack and how to remove it 
+    print all sync function along with the thread and analyse it .. 
+    Order of the lock is matter 	
+	 
+Visibility of Shared Objects  ( Why should I use Volatile keyword )
+
+    If two or more threads are sharing an object, without the proper use of either volatile declarations or synchronization, updates to the shared object made by one thread may not be visible to other threads.
+    
+    Imagine that the shared object is initially stored in main memory. A thread running on CPU one then reads the shared object into its CPU cache. There it makes a change to the shared object. As long as the CPU cache has not been flushed back to main memory, the changed version of the shared object is not visible to threads running on other CPUs. This way each thread may end up with its own copy of the shared object, each copy sitting in a different CPU cache.	 
+	
+What gives Java its 'write once and run anywhere' nature?
+
+   The bytecode. Java is compiled to be a byte code which is the intermediate language between source code and machine code. This byte code is not platform specific and hence can be fed to any platform.
+
+   
+What is classloader?
+
+   The classloader is a subsystem of JVM that is used to load classes and interfaces.There are many types of classloaders e.g. Bootstrap classloader, Extension classloader, System classloader, Plugin classloader etc.  
+
+Why can’t constructors be final, static or abstract in Java?
+    When you set a method as final, it means : “You don’t want any class override it”, but constructor by JLS definition can’t overridden,so it is clean.
+
+    When you set a method as ‘abstract’,it means:”Method don’t have any body and you want to implement it at another time in a child class”, but the constructor is called implicitly when the new keyword is used so it can’t lack a body.
+
+   When you set a method as ‘static’, it means: “Method belong to class, not a particular object” but constructor implicitly called to initialize an object, so there is no purpose in having a static constructor.
+   
+	 
+data structure :
+  Insertion sort is good to use for small number of input elements(less than 1000) . You can see  by running the below algorithm for  
+        Best Case        :    O(n)
+       Average Case     :    O(n^2)
+       Worst Case      :    O(n^2)
+	  
+   Quick Sort : 
+       Best Case        :    O(n log n)
+       Average Case   :    O(n log n)
+       Worst Case      :    O(n^2) 
+
+    Selection Sort : 
+        Best Case        :    O(n^2)
+        Average Case   :    O(n^2)
+        Worst Case      :    O(n^2)	
+		
+		
+    Merge sort  ( Space complexity of  O(n) )   actual is O(n + n/2 )
+       Best Case        :    O(n log n)
+       Average Case   :    O(n log n)		
+	   Worst Case      :    O(n logn)	
+      	
+    
+ANDROID:
+=============================
+lifecycle of activity n fragments
+wat states are called if i move frm once activity to other and also in fragments
+wat happens if 2 activity are launcher
+diff btw permission & uses permission
+diff btw async task and thread
+diff btw async task and services
+wat hpns to activty n thread if i change the orientation
+material design
+types of intents
+types of service and broadcast recievers
+how to fetch data and populate in listview after each 10 items(pagination)
+diff btw recyclerview and listview
+view holders
+layout inflators and wat is the usee of getview
+GCM
+google maps and offline maps
+wat differs with eclipse and android studio
+how to monitor performance in android studio
+how to get key and how to use it in android
+how to publish app
+what happens if i use the same key in 2 different machine for maps
+serialization and parcelable
+equals and hashcode
+version code and version name
+diff b/w service n async task
+why byte[] in serialization
+tools used for code review
+why we need to user permission in code for android 6 n above 
+How much size will be allocated by android per application
+bind service and startservice
+context and applicaiton context
+
+
+
+The Following Android Classes uses Design Patterns
+
+1) View Holder uses Singleton Design Pattern
+2) Intent uses Factory Design Pattern
+3) Adapter uses Adapter Design Pattern
+4) Broadcast Receiver uses Observer Design Pattern
+5) View uses Composite Design Pattern
+6) Media FrameWork uses Façade Design Pattern
