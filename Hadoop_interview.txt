@@ -141,4 +141,9 @@ Interview Questions on Hadoop Hive
 3. what are the important property you need to set in driver code 
 4. why we need to store meta data in meta store - hive 
 5. what is the internal architecture of sqoop
+6. when I have to go for Nosql as I have sql in my hand , what are the setback of NoSql and advantage of it 
+7.  
+ 
+ 
+ 
  

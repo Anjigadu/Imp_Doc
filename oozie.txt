@@ -58,8 +58,3 @@ solution :
     <name>hadoop.proxyuser.oozie.groups</name>
     <value>users,oozie,root</value>
  </property>
-
-
-
-
-

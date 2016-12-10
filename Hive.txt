@@ -18,10 +18,16 @@ hive > CREATE DATABASE IF NOT EXISTS testdb;
 
 create table test (uuid String  , id String , name String ) row format delimited fields terminated by ',' row terminated by '\n' ;
 
-// Creating tables 
-CREATE TABLE IF NOT EXISTS RETAILER_BILL_DETAIL ( BILL_DETAIL_UUID String , STORE_UUID String , BILL_HEADER_UUID String , CREATED_BY String, CREATED_TIME TIMESTAMP , PRODUCT_UUID String , REF_COLUMN_1 String , REF_COLUMN_2 String , UNIT_PRICE DOUBLE , UNIT_SOLD DOUBLE , UPDATED_BY String , UPDATED_TIME TIMESTAMP ) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile;
-CREATE TABLE IF NOT EXISTS RETAILER_BILL_HEADER ( BILL_HEADER_UUID String , STORE_UUID String , BILL_DATE TIMESTAMP , BILL_DISCOUNT DOUBLE , BILL_NUM String , BILL_TOTAL DOUBLE , CREATED_BY String, CREATED_TIME TIMESTAMP , REF_COLUMN_1 String, REF_COLUMN_2 String, UPDATE_BY String, UPDATED_TIME TIMESTAMP , BILL_STATUS int ) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile;
-CREATE TABLE IF NOT EXISTS RETAILER_PRODUCT_MASTER (PRODUCT_UUID String ,STORE_UUID String , CREATED_BY String, CREATED_TIME TIMESTAMP , ITEM_DESCRIPTION String, MANF_PRODUCT_UUID String, MANF_UUID String, PACKAGED int, PRODUCT_CODE String , REF_COLUMN_1 String,	REF_COLUMN_2 String, SHARED_PRODUCT_UUID String, TO_BE_VERIFIED int, UNIT_MRP DOUBLE, UNIT_OF_MEASUREMENT String, UNIT_SP DOUBLE, UNIT_WEIGHT DOUBLE, UPDATED_BY String, UPDATED_TIME TIMESTAMP , VAT_PERCENTAGE DOUBLE, UNIT_CP DOUBLE, ACTIVE_STATUS int)  row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile ; 
+// Creating tables   //-------------------------------------------------- internal table --------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS RETAILER_BILL_DETAIL ( RBD_ID int , BILL_DETAIL_UUID String , STORE_UUID String , BILL_HEADER_UUID String , CREATED_BY String, CREATED_TIME TIMESTAMP , PRODUCT_UUID String , REF_COLUMN_1 String , REF_COLUMN_2 String , UNIT_PRICE DOUBLE , UNIT_SOLD DOUBLE , UPDATED_BY String , UPDATED_TIME TIMESTAMP ) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile;
+CREATE TABLE IF NOT EXISTS RETAILER_BILL_HEADER ( RBH_ID int , BILL_HEADER_UUID String , STORE_UUID String , BILL_DATE TIMESTAMP , BILL_DISCOUNT DOUBLE , BILL_NUM String , BILL_TOTAL DOUBLE , CREATED_BY String, CREATED_TIME TIMESTAMP , REF_COLUMN_1 String, REF_COLUMN_2 String, UPDATE_BY String, UPDATED_TIME TIMESTAMP , BILL_STATUS int ) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile;
+CREATE TABLE IF NOT EXISTS RETAILER_PRODUCT_MASTER ( RPM_ID int , PRODUCT_UUID String ,STORE_UUID String , CREATED_BY String, CREATED_TIME TIMESTAMP , ITEM_DESCRIPTION String, MANF_PRODUCT_UUID String, MANF_UUID String, PACKAGED int, PRODUCT_CODE String , REF_COLUMN_1 String,	REF_COLUMN_2 String, SHARED_PRODUCT_UUID String, TO_BE_VERIFIED int, UNIT_MRP DOUBLE, UNIT_OF_MEASUREMENT String, UNIT_SP DOUBLE, UNIT_WEIGHT DOUBLE, UPDATED_BY String, UPDATED_TIME TIMESTAMP , VAT_PERCENTAGE DOUBLE, UNIT_CP DOUBLE, ACTIVE_STATUS int)  row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile ; 
+
+
+// Creating tables   //-------------------------------------------------- external table --------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS RETAILER_BILL_DETAIL ( RBD_ID int , BILL_DETAIL_UUID String , STORE_UUID String , BILL_HEADER_UUID String , CREATED_BY String, CREATED_TIME TIMESTAMP , PRODUCT_UUID String , REF_COLUMN_1 String , REF_COLUMN_2 String , UNIT_PRICE DOUBLE , UNIT_SOLD DOUBLE , UPDATED_BY String , UPDATED_TIME TIMESTAMP ) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location /ganges_data ;
+CREATE TABLE IF NOT EXISTS RETAILER_BILL_HEADER ( RBH_ID int , BILL_HEADER_UUID String , STORE_UUID String , BILL_DATE TIMESTAMP , BILL_DISCOUNT DOUBLE , BILL_NUM String , BILL_TOTAL DOUBLE , CREATED_BY String, CREATED_TIME TIMESTAMP , REF_COLUMN_1 String, REF_COLUMN_2 String, UPDATE_BY String, UPDATED_TIME TIMESTAMP , BILL_STATUS int ) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location /ganges_data ;
+CREATE TABLE IF NOT EXISTS RETAILER_PRODUCT_MASTER ( RPM_ID int , PRODUCT_UUID String ,STORE_UUID String , CREATED_BY String, CREATED_TIME TIMESTAMP , ITEM_DESCRIPTION String, MANF_PRODUCT_UUID String, MANF_UUID String, PACKAGED int, PRODUCT_CODE String , REF_COLUMN_1 String,	REF_COLUMN_2 String, SHARED_PRODUCT_UUID String, TO_BE_VERIFIED int, UNIT_MRP DOUBLE, UNIT_OF_MEASUREMENT String, UNIT_SP DOUBLE, UNIT_WEIGHT DOUBLE, UPDATED_BY String, UPDATED_TIME TIMESTAMP , VAT_PERCENTAGE DOUBLE, UNIT_CP DOUBLE, ACTIVE_STATUS int)  row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location /ganges_data ; 
 
 
 // load local test data
@@ -55,7 +61,7 @@ CREATE EXTERNAL TABLE external_parquet (c1 INT, c2 STRING, c3 TIMESTAMP)
    
    
   //////////////////////////Checking partition  ////////////////////////////////////////////////////////////////////////////
-  create EXTERNAL table stu_name_par (id int , name String) partitioned by (age int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile;
+  create EXTERNAL table stu_name_par (id int , name String) partitioned by (age int) row format delimited fields terminated by ',' lines terminated by '\n' stored as textfile location ;
   load data local inpath '/root/TEST_DATA/Hive/Join_data/stu_name.txt' into table stu_name_par partition (age = 25);
   load data local inpath '/root/TEST_DATA/Hive/Join_data/age_grp_26.txt' into table stu_name_par partition (age = 26);
   load data local inpath '/root/TEST_DATA/Hive/Join_data/age_grp_rand.txt' into table stu_name_par;  
@@ -126,6 +132,7 @@ LOAD DATA INPATH '/pig_test_data/owner' [OVERWRITE] INTO TABLE tablename
  
   
 //////////////////////////////////////   Sqoop importing data      ////////////////////////////////////////////////////////////////////////
+$ sqoop list-databases --connect jdbc:mysql://192.168.1.5/ --username root --password password
 
 $sqoop import --connect jdbc:mysql://localhost/ganges --username root --table RETAILER_BILL_HEADER   // copy data to HDFS parent dir 
 $sqoop import --connect jdbc:mysql://localhost/ganges --username root --table RETAILER_BILL_HEADER  --target-dir /temp/wh   // specifying dest location
@@ -257,6 +264,5 @@ https://cwiki.apache.org/confluence/display/Hive/HiveClient
 
 set hive.execution.engine = spark   // using spark engine 
 set hive.execution.engine = mr      // using map reduce engine 
- 
 
 

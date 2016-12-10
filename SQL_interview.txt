@@ -21,7 +21,7 @@ CRUD operation :
   Create , Read , update , delete 
 
 ACID property 
-  Atomicity :
+  Atomicity :  
   Consistency :  how does consistency acheived 
   Isolation:  Concurreny control management ensured this property , when two threads are performing updates on database 
   Durability : 
@@ -44,8 +44,3 @@ Index : Indexes are special lookup tables that the database search engine can us
      // you can correlate with our book index , assume last few pages is the lookup table , using this your retrievel will be faster 
 	 CREATE INDEX index_name ON table_name (column_name);
 	 
-	 
-   
- 
-    
-	
